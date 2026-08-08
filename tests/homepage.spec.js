@@ -1,15 +1,18 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Locator} from '@playwright/test';
 
 test('Homepage lädt', async ({ page }) => {
     await page.goto('https://kleidermafia.com/');
-    await expect(page).toHaveTitle('Kleidermafia - Mode für Männer und Frauen');
+    await expect(page).toHaveTitle('Kleidermafia - Young & Street Fashion');
 });
 
 test('Homepage enthält den Text "Kleidermafia"', async ({ page }) => {
     await page.goto('https://kleidermafia.com/');
-    await expect(page).toContainText('Kleidermafia');
+    await expect(page.locator('body')).toContainText('Kleidermafia');
 });
 
-test('MEN: New in', async ({ page }) => {
+test('Anzahl der Bestseller anzeigen',async ({ page }) => {
+    const HomePage = new HomePage(page);
+
     await page.goto('https://kleidermafia.com/');
+    await expect(HomePage.bestsellerItems).toHaveCount(19);
 });
