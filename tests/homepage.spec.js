@@ -1,4 +1,5 @@
-import { test, expect, Locator} from '@playwright/test';
+import { test, expect } from '@playwright/test';
+import { HomePage } from '../pageObjects/HomePage.js';
 
 test('Homepage lädt', async ({ page }) => {
     await page.goto('https://kleidermafia.com/');
@@ -11,8 +12,12 @@ test('Homepage enthält den Text "Kleidermafia"', async ({ page }) => {
 });
 
 test('Anzahl der Bestseller anzeigen',async ({ page }) => {
-    const HomePage = new HomePage(page);
+    const homePage = new HomePage(page);
 
     await page.goto('https://kleidermafia.com/');
-    await expect(HomePage.bestsellerItems).toHaveCount(19);
-});
+    const count = await homePage.getBestsellerCount();
+
+    console.log('Bestseller Anzahl:', count);
+
+    expect(count).toBe(20);
+ });
